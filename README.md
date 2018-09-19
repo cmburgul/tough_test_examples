@@ -65,7 +65,7 @@ void ChestControlInterface::getChestOrientation(geometry_msgs::Quaternion &orien
         orientation = chest_pose.orientation;
 }
 ```
-### Explaination : 
+#### Explaination : 
 
    These test example takes 3 arguments: roll, pitch, & yaw
    Arguments is taken in degrees and converted to radians
