@@ -4,67 +4,67 @@
 
 These package contains the test examples which can be used to move each part of the atlas seperately. This is good for beginners to start with each line is explained line by line and the necessary data is also provided which makes the code easier to understand. 
 
-#### 1. Testing Chest movements
+#### 1. Chest Navigation Example
+
+ In this example we will write a ros node to move chest base such that it's roll=0, pitch=10, and yaw=30 
 
 #### Code:
 ```
 #include <tough_controller_interface/chest_control_interface.h>
-#include <tf/transform_listener.h>
+#include <stdlib.h>
+#include <std_msgs/String.h>
+#include <tough_common/tough_common_names.h>
 
-#define TO_RADIANS M_PI / 180.0 //goes probably in utils which stores similar math operation parameters
-
-ChestControlInterface::ChestControlInterface(ros::NodeHandle nh):ToughControllerInterface(nh)
+int main(int argc, char **argv)
 {
+  ros::init(argc, argv, "test_chest_navigation"); 
+  ros::NodeHandle nh;
+  ROS_INFO("Moving the chest");
 
-    chestTrajPublisher_ =
-            nh_.advertise<ihmc_msgs::ChestTrajectoryRosMessage>(control_topic_prefix_ +"/chest_trajectory",1,true);
+  ros::Publisher log_pub = nh.advertise<std_msgs::String>(TOUGH_COMMON_NAMES::LOG_TOPIC, 10);
+  const auto log_msg = [&log_pub](const std::string &str)
+  {
+      std_msgs::String msg;
+      msg.data = ros::this_node::getName() + ": " + str;
+      log_pub.publish(msg);
+      ROS_INFO("%s", msg.data.c_str());
+  };
+
+  // wait a reasonable amount of time for the subscriber to connect
+  ros::Time wait_until = ros::Time::now() + ros::Duration(0.5);
+  while (log_pub.getNumSubscribers() == 0 && ros::Time::now() < wait_until)
+  {
+    ros::spinOnce();
+    ros::WallDuration(0.1).sleep();
+  }
+
+  ChestControlInterface chestTraj(nh);
+
+  if(argc != 4)
+  {
+    chestTraj.controlChest(10, 0, 0);
+    log_msg("Moving chest angle to 10, 0, 0");
+  }
+  else
+  {
+    float roll = std::atof(argv[1]);
+    float pitch = std::atof(argv[2]);
+    float yaw = std::atof(argv[3]);
+
+    log_msg("Moving chest angle to " + std::to_string(roll) + ", " + std::to_string(pitch) + ", " + std::to_string(yaw));
+    chestTraj.controlChest(roll, pitch, yaw);
+  }
+
+  ros::spinOnce();
+  ros::Duration(2).sleep();
+
+  log_msg("Motion finished");
+  
+  return 0;
 }
 
-ChestControlInterface::~ChestControlInterface()
-{
-}
-
-void ChestControlInterface::controlChest(float roll , float pitch , float yaw, float time, int execution_mode)
-{
-
-    roll  =  roll*TO_RADIANS;
-    pitch = pitch*TO_RADIANS;
-    yaw   =   yaw*TO_RADIANS;
-
-    tf::Quaternion quatInPelvisFrame;
-    quatInPelvisFrame.setRPY(roll,pitch,yaw);
-    geometry_msgs::Quaternion quat;
-    tf::quaternionTFToMsg(quatInPelvisFrame, quat);
-
-    controlChest(quat, time, execution_mode);
-}
-
-void ChestControlInterface::controlChest(geometry_msgs::Quaternion quat, float time, int execution_mode)
-{
-    ihmc_msgs::ChestTrajectoryRosMessage msg;
-    ihmc_msgs::SO3TrajectoryPointRosMessage data;
-
-    data.time = time;
-
-    data.orientation = quat;
-    msg.unique_id = ChestControlInterface::id_++;
-    msg.execution_mode = execution_mode;
-
-
-    msg.taskspace_trajectory_points.push_back(data);
-
-    // publish the message
-    chestTrajPublisher_.publish(msg);
-
-}
-
-void ChestControlInterface::getChestOrientation(geometry_msgs::Quaternion &orientation)
-{
-        geometry_msgs::Pose chest_pose;
-        state_informer_->getCurrentPose(rd_->getTorsoFrame(), chest_pose, rd_->getPelvisFrame());
-        orientation = chest_pose.orientation;
-}
 ```
+
 #### Explaination : 
 
    These test example takes 3 arguments: roll, pitch, & yaw
