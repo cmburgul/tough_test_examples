@@ -5,6 +5,7 @@
 These package contains the test examples which can be used to move each part of the atlas seperately. This is good for beginners to start with each line is explained line by line and the necessary data is also provided which makes the code easier to understand. 
 
 #### 1. Chest Navigation Example
+ The code file is located in __tough_test_examples/src/chest_navigation_example__
 
  In this example code we will write a ros node to move the chest base such that it's roll=0, pitch=10, and yaw=30 degrees in 5 seconds by default. We can also give arguments as follows 
  ```
