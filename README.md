@@ -7,17 +7,10 @@ These package contains the test examples which can be used to move each part of 
 #### 1. Chest Navigation Example
  The code file is located in __tough_test_examples/src/chest_navigation_example__
 
- In this example code we will write a ros node to move the chest base such that it's roll=0, pitch=10, and yaw=30 degrees in 5 seconds by default. We can also give arguments as follows 
- ```
- rosrun tough_test_examples chest_navigation_example <arg1 arg2 arg3> 
-```
-arg1 = roll
-arg2 = pitch
-arg3 = yaw
-
- The input arguments are given in degrees. 
+ In this example code we will write a ros node to move the chest base such that it's roll=0, pitch=10, and yaw=30 degrees in 5 seconds by default. 
   
- To start, let's include the header file for ChestControllerInterface.
+ To start, let's include the header file for ChestControllerInterface, so that we can build Chest Control Interface objects.
+
 ```
 #include <tough_controller_interface/chest_control_interface.h>
 ```
@@ -74,3 +67,432 @@ int main(int argc, char **argv)
     return 0;
 }
 ```
+
+### 2. Pelvis Navigation Example
+   In this example, we will write an example node that makes the robot's pelvis height change to its maximum height, 1.05 meters above the left foot frame.
+
+We will start by including the header file of the Pelvis Interface, so that we can build Pelvis Control Interface objects.
+
+```
+#include <tough_controller_interface/pelvis_control_interface.h>
+```
+Now that we have the ability to create a PelvisControlInterface object in our example and we have access to the methods that will actually move our robot, we should create the object. The constructor of the PelvisControlInterface requires a parameter: a NodeHandle object. Therefore, we must declare a NodeHandle, and then initialize, like so:
+
+```
+int main(int argc, char **argv)
+{
+    // Initialize a ros node
+    ros::init(argc, argv, "test_node");
+    ros::NodeHandle nh;
+
+    // Create an object of PelvisControlInterface - used for actually altering the height of the robot
+    PelvisControlInterface pelvisInt(nh);
+```
+Now, once we have created the Interface object, we can change the height of the pelvis to 1.05 meters. The robot starts off at around 0.90 meters for pelvis height.
+
+```
+    float height = 1.05;
+
+    // change the pelvis height. This is a non-blocking call.
+    pelvisInt.controlPelvisHeight(height);
+```
+Once all of that code is put together, the final program should like the following:
+
+```cpp
+#include <tough_controller_interface/pelvis_control_interface.h>
+
+int main(int argc, char **argv)
+{
+    // Initialize a ros node
+    ros::init(argc, argv, "test_node");
+    ros::NodeHandle nh;
+
+    // Create an object of PelvisControlInterface - used for actually altering the height of the robot
+    PelvisControlInterface pelvisInt(nh);
+    std::cout << pelvisInt.getPelvisHeight() << std::endl;
+    float height = 1.05;
+
+    // change the pelvis height. This is a non-blocking call.
+    pelvisInt.controlPelvisHeight(height);
+
+    // wait for the robot to move
+    ros::Duration(2).sleep();
+    ROS_INFO("Motion finished");
+    return 0;
+}
+```
+### 3. Reset Robot Example
+In this example, we will write an example node that makes the robot's pelvis height change to its maximum height, 1.05 meters above the left foot frame.
+
+We will start by including the header file of the Pelvis Interface, so that we can build Pelvis Control Interface objects.
+
+```cpp
+#include <tough_controller_interface/pelvis_control_interface.h>
+```
+Now that we have the ability to create a PelvisControlInterface object in our example and we have access to the methods that will actually move our robot, we should create the object. The constructor of the PelvisControlInterface requires a parameter: a NodeHandle object. Therefore, we must declare a NodeHandle, and then initialize, like so:
+
+```cpp
+int main(int argc, char **argv)
+{
+    // Initialize a ros node
+    ros::init(argc, argv, "test_node");
+    ros::NodeHandle nh;
+
+    // Create an object of PelvisControlInterface - used for actually altering the height of the robot
+    PelvisControlInterface pelvisInt(nh);
+```
+Now, once we have created the Interface object, we can change the height of the pelvis to 1.05 meters. The robot starts off at around 0.90 meters for pelvis height.
+
+```cpp
+    float height = 1.05;
+
+    // change the pelvis height. This is a non-blocking call.
+    pelvisInt.controlPelvisHeight(height);
+```
+Once all of that code is put together, the final program should like the following:
+
+```cpp
+#include <tough_controller_interface/pelvis_control_interface.h>
+
+int main(int argc, char **argv)
+{
+    // Initialize a ros node
+    ros::init(argc, argv, "test_node");
+    ros::NodeHandle nh;
+
+    // Create an object of PelvisControlInterface - used for actually altering the height of the robot
+    PelvisControlInterface pelvisInt(nh);
+    std::cout << pelvisInt.getPelvisHeight() << std::endl;
+    float height = 1.05;
+
+    // change the pelvis height. This is a non-blocking call.
+    pelvisInt.controlPelvisHeight(height);
+
+    // wait for the robot to move
+    ros::Duration(2).sleep();
+    ROS_INFO("Motion finished");
+    return 0;
+}
+```
+### 4. Head Navigation Example
+In this example, we will write an example node that makes the robot's pelvis height change to its maximum height, 1.05 meters above the left foot frame.
+
+We will start by including the header file of the Pelvis Interface, so that we can build Pelvis Control Interface objects.
+
+```cpp
+#include <tough_controller_interface/pelvis_control_interface.h>
+```
+Now that we have the ability to create a PelvisControlInterface object in our example and we have access to the methods that will actually move our robot, we should create the object. The constructor of the PelvisControlInterface requires a parameter: a NodeHandle object. Therefore, we must declare a NodeHandle, and then initialize, like so:
+
+```cpp
+int main(int argc, char **argv)
+{
+    // Initialize a ros node
+    ros::init(argc, argv, "test_node");
+    ros::NodeHandle nh;
+
+    // Create an object of PelvisControlInterface - used for actually altering the height of the robot
+    PelvisControlInterface pelvisInt(nh);
+```
+Now, once we have created the Interface object, we can change the height of the pelvis to 1.05 meters. The robot starts off at around 0.90 meters for pelvis height.
+
+```cpp
+    float height = 1.05;
+
+    // change the pelvis height. This is a non-blocking call.
+    pelvisInt.controlPelvisHeight(height);
+```
+Once all of that code is put together, the final program should like the following:
+
+```cpp
+#include <tough_controller_interface/pelvis_control_interface.h>
+
+int main(int argc, char **argv)
+{
+    // Initialize a ros node
+    ros::init(argc, argv, "test_node");
+    ros::NodeHandle nh;
+
+    // Create an object of PelvisControlInterface - used for actually altering the height of the robot
+    PelvisControlInterface pelvisInt(nh);
+    std::cout << pelvisInt.getPelvisHeight() << std::endl;
+    float height = 1.05;
+
+    // change the pelvis height. This is a non-blocking call.
+    pelvisInt.controlPelvisHeight(height);
+
+    // wait for the robot to move
+    ros::Duration(2).sleep();
+    ROS_INFO("Motion finished");
+    return 0;
+}
+```
+### 5. Neck Navigation Example
+In this example, we will write an example node that makes the robot's pelvis height change to its maximum height, 1.05 meters above the left foot frame.
+
+We will start by including the header file of the Pelvis Interface, so that we can build Pelvis Control Interface objects.
+
+```cpp
+#include <tough_controller_interface/pelvis_control_interface.h>
+```
+Now that we have the ability to create a PelvisControlInterface object in our example and we have access to the methods that will actually move our robot, we should create the object. The constructor of the PelvisControlInterface requires a parameter: a NodeHandle object. Therefore, we must declare a NodeHandle, and then initialize, like so:
+
+```cpp
+int main(int argc, char **argv)
+{
+    // Initialize a ros node
+    ros::init(argc, argv, "test_node");
+    ros::NodeHandle nh;
+
+    // Create an object of PelvisControlInterface - used for actually altering the height of the robot
+    PelvisControlInterface pelvisInt(nh);
+```
+Now, once we have created the Interface object, we can change the height of the pelvis to 1.05 meters. The robot starts off at around 0.90 meters for pelvis height.
+
+```cpp
+    float height = 1.05;
+
+    // change the pelvis height. This is a non-blocking call.
+    pelvisInt.controlPelvisHeight(height);
+```
+Once all of that code is put together, the final program should like the following:
+
+```cpp
+#include <tough_controller_interface/pelvis_control_interface.h>
+
+int main(int argc, char **argv)
+{
+    // Initialize a ros node
+    ros::init(argc, argv, "test_node");
+    ros::NodeHandle nh;
+
+    // Create an object of PelvisControlInterface - used for actually altering the height of the robot
+    PelvisControlInterface pelvisInt(nh);
+    std::cout << pelvisInt.getPelvisHeight() << std::endl;
+    float height = 1.05;
+
+    // change the pelvis height. This is a non-blocking call.
+    pelvisInt.controlPelvisHeight(height);
+
+    // wait for the robot to move
+    ros::Duration(2).sleep();
+    ROS_INFO("Motion finished");
+    return 0;
+}
+```
+### 6. Wrist Example
+
+In this example, we will write an example node that makes the robot's pelvis height change to its maximum height, 1.05 meters above the left foot frame.
+
+We will start by including the header file of the Pelvis Interface, so that we can build Pelvis Control Interface objects.
+
+```cpp
+#include <tough_controller_interface/pelvis_control_interface.h>
+```
+Now that we have the ability to create a PelvisControlInterface object in our example and we have access to the methods that will actually move our robot, we should create the object. The constructor of the PelvisControlInterface requires a parameter: a NodeHandle object. Therefore, we must declare a NodeHandle, and then initialize, like so:
+
+```cpp
+int main(int argc, char **argv)
+{
+    // Initialize a ros node
+    ros::init(argc, argv, "test_node");
+    ros::NodeHandle nh;
+
+    // Create an object of PelvisControlInterface - used for actually altering the height of the robot
+    PelvisControlInterface pelvisInt(nh);
+```
+Now, once we have created the Interface object, we can change the height of the pelvis to 1.05 meters. The robot starts off at around 0.90 meters for pelvis height.
+
+```cpp
+    float height = 1.05;
+
+    // change the pelvis height. This is a non-blocking call.
+    pelvisInt.controlPelvisHeight(height);
+```
+Once all of that code is put together, the final program should like the following:
+
+```cpp
+#include <tough_controller_interface/pelvis_control_interface.h>
+
+int main(int argc, char **argv)
+{
+    // Initialize a ros node
+    ros::init(argc, argv, "test_node");
+    ros::NodeHandle nh;
+
+    // Create an object of PelvisControlInterface - used for actually altering the height of the robot
+    PelvisControlInterface pelvisInt(nh);
+    std::cout << pelvisInt.getPelvisHeight() << std::endl;
+    float height = 1.05;
+
+    // change the pelvis height. This is a non-blocking call.
+    pelvisInt.controlPelvisHeight(height);
+
+    // wait for the robot to move
+    ros::Duration(2).sleep();
+    ROS_INFO("Motion finished");
+    return 0;
+}
+```
+### 7. Nudge Local Example
+In this example, we will write an example node that makes the robot's pelvis height change to its maximum height, 1.05 meters above the left foot frame.
+
+We will start by including the header file of the Pelvis Interface, so that we can build Pelvis Control Interface objects.
+
+```cpp
+#include <tough_controller_interface/pelvis_control_interface.h>
+```
+Now that we have the ability to create a PelvisControlInterface object in our example and we have access to the methods that will actually move our robot, we should create the object. The constructor of the PelvisControlInterface requires a parameter: a NodeHandle object. Therefore, we must declare a NodeHandle, and then initialize, like so:
+
+```cpp
+int main(int argc, char **argv)
+{
+    // Initialize a ros node
+    ros::init(argc, argv, "test_node");
+    ros::NodeHandle nh;
+
+    // Create an object of PelvisControlInterface - used for actually altering the height of the robot
+    PelvisControlInterface pelvisInt(nh);
+```
+Now, once we have created the Interface object, we can change the height of the pelvis to 1.05 meters. The robot starts off at around 0.90 meters for pelvis height.
+
+```cpp
+    float height = 1.05;
+
+    // change the pelvis height. This is a non-blocking call.
+    pelvisInt.controlPelvisHeight(height);
+```
+Once all of that code is put together, the final program should like the following:
+
+```cpp
+#include <tough_controller_interface/pelvis_control_interface.h>
+
+int main(int argc, char **argv)
+{
+    // Initialize a ros node
+    ros::init(argc, argv, "test_node");
+    ros::NodeHandle nh;
+
+    // Create an object of PelvisControlInterface - used for actually altering the height of the robot
+    PelvisControlInterface pelvisInt(nh);
+    std::cout << pelvisInt.getPelvisHeight() << std::endl;
+    float height = 1.05;
+
+    // change the pelvis height. This is a non-blocking call.
+    pelvisInt.controlPelvisHeight(height);
+
+    // wait for the robot to move
+    ros::Duration(2).sleep();
+    ROS_INFO("Motion finished");
+    return 0;
+}
+```
+
+### 8. Arm Navigation Example
+In this example, we will write an example node that makes the robot's pelvis height change to its maximum height, 1.05 meters above the left foot frame.
+
+We will start by including the header file of the Pelvis Interface, so that we can build Pelvis Control Interface objects.
+
+```cpp
+#include <tough_controller_interface/pelvis_control_interface.h>
+```
+Now that we have the ability to create a PelvisControlInterface object in our example and we have access to the methods that will actually move our robot, we should create the object. The constructor of the PelvisControlInterface requires a parameter: a NodeHandle object. Therefore, we must declare a NodeHandle, and then initialize, like so:
+
+```cpp
+int main(int argc, char **argv)
+{
+    // Initialize a ros node
+    ros::init(argc, argv, "test_node");
+    ros::NodeHandle nh;
+
+    // Create an object of PelvisControlInterface - used for actually altering the height of the robot
+    PelvisControlInterface pelvisInt(nh);
+```
+Now, once we have created the Interface object, we can change the height of the pelvis to 1.05 meters. The robot starts off at around 0.90 meters for pelvis height.
+
+```cpp
+    float height = 1.05;
+
+    // change the pelvis height. This is a non-blocking call.
+    pelvisInt.controlPelvisHeight(height);
+```
+Once all of that code is put together, the final program should like the following:
+
+```cpp
+#include <tough_controller_interface/pelvis_control_interface.h>
+
+int main(int argc, char **argv)
+{
+    // Initialize a ros node
+    ros::init(argc, argv, "test_node");
+    ros::NodeHandle nh;
+
+    // Create an object of PelvisControlInterface - used for actually altering the height of the robot
+    PelvisControlInterface pelvisInt(nh);
+    std::cout << pelvisInt.getPelvisHeight() << std::endl;
+    float height = 1.05;
+
+    // change the pelvis height. This is a non-blocking call.
+    pelvisInt.controlPelvisHeight(height);
+
+    // wait for the robot to move
+    ros::Duration(2).sleep();
+    ROS_INFO("Motion finished");
+    return 0;
+}
+```
+
+### 9. Gripper Control Example
+In this example, we will write an example node that makes the robot's pelvis height change to its maximum height, 1.05 meters above the left foot frame.
+
+We will start by including the header file of the Pelvis Interface, so that we can build Pelvis Control Interface objects.
+
+```cpp
+#include <tough_controller_interface/pelvis_control_interface.h>
+```
+Now that we have the ability to create a PelvisControlInterface object in our example and we have access to the methods that will actually move our robot, we should create the object. The constructor of the PelvisControlInterface requires a parameter: a NodeHandle object. Therefore, we must declare a NodeHandle, and then initialize, like so:
+
+```cpp
+int main(int argc, char **argv)
+{
+    // Initialize a ros node
+    ros::init(argc, argv, "test_node");
+    ros::NodeHandle nh;
+
+    // Create an object of PelvisControlInterface - used for actually altering the height of the robot
+    PelvisControlInterface pelvisInt(nh);
+```
+Now, once we have created the Interface object, we can change the height of the pelvis to 1.05 meters. The robot starts off at around 0.90 meters for pelvis height.
+
+```cpp
+    float height = 1.05;
+
+    // change the pelvis height. This is a non-blocking call.
+    pelvisInt.controlPelvisHeight(height);
+```
+Once all of that code is put together, the final program should like the following:
+
+```cpp
+#include <tough_controller_interface/pelvis_control_interface.h>
+
+int main(int argc, char **argv)
+{
+    // Initialize a ros node
+    ros::init(argc, argv, "test_node");
+    ros::NodeHandle nh;
+
+    // Create an object of PelvisControlInterface - used for actually altering the height of the robot
+    PelvisControlInterface pelvisInt(nh);
+    std::cout << pelvisInt.getPelvisHeight() << std::endl;
+    float height = 1.05;
+
+    // change the pelvis height. This is a non-blocking call.
+    pelvisInt.controlPelvisHeight(height);
+
+    // wait for the robot to move
+    ros::Duration(2).sleep();
+    ROS_INFO("Motion finished");
+    return 0;
+}
+```
+
