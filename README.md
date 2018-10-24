@@ -11,12 +11,12 @@ These package contains the test examples which can be used to move each part of 
   
  To start, let's include the header file for ChestControllerInterface, so that we can build Chest Control Interface objects.
 
-```
+```cpp
 #include <tough_controller_interface/chest_control_interface.h>
 ```
  Now that we have access to the functions to control chest, we should initialize a ChestControllerInterface object in a ros node to call those functions. This needs ros::NodeHandle as a constructor argument.
  
-```
+```cpp
 #include <tough_controller_interface/chest_control_interface.h>
 
 int main(int argc, char **argv)
@@ -30,7 +30,7 @@ int main(int argc, char **argv)
 ```
 Now we can call the controlChest function to move the chest in required orientation.
 
-```
+```cpp
 float roll = 0.0f;
 float pitch = 10.0f;
 float yaw = 30.0f;
@@ -42,7 +42,7 @@ chestTraj.controlChest(roll, pitch, yaw, duration);
 Putting it all together, we have the following code that moves the robot chest to the specified orientation.
 
 #### Code:
-```
+```cpp
 #include <tough_controller_interface/chest_control_interface.h>
 #include <ros/ros.h>
 #include <geometry_msgs/Quaternion.h>
@@ -114,29 +114,6 @@ int main(int argc, char **argv)
            (float)chest_orientation_after_motion.z);
 
   ROS_INFO("Motion Successfully Completed");
-//  bool motionChecker = false;
-
-//  if(chest_orientation_before_motion.x == chest_orientation_after_motion.x &&
-//     chest_orientation_before_motion.y == chest_orientation_after_motion.y &&
-//     chest_orientation_before_motion.z == chest_orientation_after_motion.z)
-//  {
-//      motionChecker = true;
-//      ROS_INFO("Motion failed");
-//  }
-
-
-//  if (motionChecker)
-//  {
-//      ROS_INFO("Motion finished successfully");
-//  }
-//  else
-//  {
-//      ROS_INFO("Motion failed");
-//  }
-
-//  std::cout << fabs(chest_orientation_before_motion.x)*100<< " " << fabs(chest_orientation_after_motion.x)*100 << std::endl;
-//  std::cout << fabs(chest_orientation_before_motion.y)*100000 << " " << fabs(chest_orientation_after_motion.y)*100000 << std::endl;
-//  std::cout << fabs(chest_orientation_before_motion.z)*100000 << " " << fabs(chest_orientation_after_motion.z)*100000 << std::endl;
 
   return 0;
 }
@@ -147,12 +124,12 @@ int main(int argc, char **argv)
 
 We will start by including the header file of the Pelvis Interface, so that we can build Pelvis Control Interface objects.
 
-```
+```cpp
 #include <tough_controller_interface/pelvis_control_interface.h>
 ```
 Now that we have the ability to create a PelvisControlInterface object in our example and we have access to the methods that will actually move our robot, we should create the object. The constructor of the PelvisControlInterface requires a parameter: a NodeHandle object. Therefore, we must declare a NodeHandle, and then initialize, like so:
 
-```
+```cpp
 int main(int argc, char **argv)
 {
     // Initialize a ros node
@@ -164,7 +141,7 @@ int main(int argc, char **argv)
 ```
 Now, once we have created the Interface object, we can change the height of the pelvis to 1.05 meters. The robot starts off at around 0.90 meters for pelvis height.
 
-```
+```cpp
     float height = 1.05;
 
     // change the pelvis height. This is a non-blocking call.
